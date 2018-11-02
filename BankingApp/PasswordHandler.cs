@@ -18,8 +18,8 @@ namespace BankingApp
         {
             using (SHA512 sha = SHA512.Create())
             {
-                byte[] input = Convert.FromBase64String(password + salt);
-                return Convert.ToBase64String(sha.ComputeHash(input));
+                byte[] input = System.Text.Encoding.UTF8.GetBytes(password + salt);
+                return System.Text.Encoding.UTF8.GetString(sha.ComputeHash(input));
             }
         }
 
@@ -27,9 +27,9 @@ namespace BankingApp
         {
             using (RNGCryptoServiceProvider rand = new RNGCryptoServiceProvider())
             {
-                byte[] chars = new byte[length];
-                rand.GetBytes(chars);
-                return Convert.ToBase64String(chars);
+                byte[] bytes = new byte[length];
+                rand.GetBytes(bytes);
+                return System.Text.Encoding.UTF8.GetString(bytes);
             }
         }
     }
