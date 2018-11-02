@@ -8,21 +8,27 @@ namespace BankingApp.Models
     {
         private static uint NEXT_ACCOUNT_NUMBER = 1;
 
-        public uint AccountNumber { get; }
-        public long Balance { get; } = 0;
-        public User AccountOwner { get; }
+        public readonly uint AccountNumber;
+        public long Balance { get; private set; } = 0;
         private readonly ICollection<Transaction> Transactions = new List<Transaction>();
 
-        public BankAccount(User owner)
+        public BankAccount()
         {
             AccountNumber = NEXT_ACCOUNT_NUMBER;
             NEXT_ACCOUNT_NUMBER++;
-            AccountOwner = owner;
         }
 
         public long RecordTransaction(Transaction transaction)
         {
             throw new Exception("Not yet implemented");
+        }
+
+        public long AddTransaction(TransactionType transactionType, uint amount)
+        {
+            Transaction transaction = new Transaction(transactionType, Balance, amount);
+            Transactions.Add(transaction);
+            Balance = transaction.EndingBalance;
+            return Balance;
         }
     }
 }
