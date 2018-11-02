@@ -21,10 +21,17 @@ namespace BankingApp
             {
                 loginCmd.Description = "The command to log-in to the app.";
                 CommandArgument userName = loginCmd.Argument("user", "The user name for the user you wish to login as.");
+                userName.IsRequired(false, "Please provide a user name to login.");
                 loginCmd.OnExecute(() =>
                 {
                     BankingApp.Login(userName.Value);
                 });
+            });
+            // Configure logout command
+            app.Command("logout", logoutCmd =>
+            {
+                logoutCmd.Description = "The command to logout of your account.";
+                logoutCmd.OnExecute(() => BankingApp.Controller.Logout());
             });
             // Configure exit command
             app.Command("exit", exitCmd =>
@@ -38,19 +45,68 @@ namespace BankingApp
             // Configure create user command
             app.Command("create-user", userCmd =>
             {
-                userCmd.Description = "the command to create a new banking app user.";
+                userCmd.Description = "The command to create a new banking app user.";
                 userCmd.OnExecute(() => BankingApp.CreateUser());
             });
-            
+            // Configure withdrawl command
+            app.Command("withdraw", withdrawCmd =>
+            {
+                withdrawCmd.Description = "The command to record a withdrawl from your account.";
+                CommandArgument amountArg = withdrawCmd.Argument("amount", "The amount to withdraw from your account (in cents)");
+                amountArg.IsRequired(false, "Please proved an amount to withdraw from your account");
+                withdrawCmd.OnExecute(() => {
+                    if (UInt32.TryParse(amountArg.Value, out uint amount))
+                    {
+                        BankingApp.Controller.Withdraw(amount);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Failed to parse withdrawl amount.");
+                    }
+                });
+            });
+            // Configure deposit command
+            app.Command("deposit", withdrawCmd =>
+            {
+                withdrawCmd.Description = "The command to record a deposit to your account.";
+                CommandArgument amountArg = withdrawCmd.Argument("amount", "The amount to deposit to your account (in cents)");
+                amountArg.IsRequired(false, "Please proved an amount to deposit to your account");
+                withdrawCmd.OnExecute(() => {
+                    if (UInt32.TryParse(amountArg.Value, out uint amount))
+                    {
+                        BankingApp.Controller.Deposit(amount);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Failed to parse deposit amount.");
+                    }
+                });
+            });
+            // Configure balance command
+            app.Command("balance", balanceCmd =>
+            {
+                balanceCmd.Description = "The command to view the balance of your account.";
+                balanceCmd.OnExecute(() => BankingApp.Balance());
+            });
+            // Configure history command
+            app.Command("history", historyCmd =>
+            {
+                historyCmd.Description = "The command to view the transaction history of your account.";
+                historyCmd.OnExecute(() => BankingApp.History());
+            });
         }
 
         static void Main(string[] args)
         {
             CommandLineApplication app = new CommandLineApplication();
             ConfigureApp(app);
+            // Start the main prompt loop
             while (!BankingApp.Exit)
             {
-                args = Prompt.GetString("bankingapp>").Split(' ');
+                string colon = Controller.GetLoggedInUserName() != null ? ":" : "";
+                string prompt = $"bankingapp{colon}{Controller.GetLoggedInUserName()}>";
+                args = Prompt.GetString(prompt).Split(' ');
+                app.Arguments.Clear();
                 try
                 {
                     app.Execute(args);
@@ -99,6 +155,16 @@ namespace BankingApp
                 }
             }
             Console.WriteLine("Login attempts exceeded.");
+        }
+
+        private static int Balance()
+        {
+            throw new NotImplementedException();
+        }
+
+        private static int History()
+        {
+            throw new NotImplementedException();
         }
     }
 }
