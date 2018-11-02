@@ -14,7 +14,7 @@ namespace BankingApp.Models
     {
         private readonly TransactionType TransactionType;
         private readonly long StartingBalance;
-        private readonly long EndingBalance;
+        public readonly long EndingBalance;
         private readonly uint Amount;
 
         public Transaction(TransactionType transactionType, long startingBalnace, uint amount)
