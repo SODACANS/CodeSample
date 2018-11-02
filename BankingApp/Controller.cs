@@ -57,7 +57,7 @@ namespace BankingApp
 
         public double GetBalance()
         {
-            if (LoggedInUser == null)
+            if (!IsAuthenticated)
             {
                 throw new UnauthorizedAccessException("User must be logged in to view an account balance.");
             }
@@ -66,7 +66,7 @@ namespace BankingApp
 
         public void Withdraw(uint amount)
         {
-            if (LoggedInUser == null)
+            if (!IsAuthenticated)
             {
                 throw new UnauthorizedAccessException("User must be logged in to record a withdrawl.");
             }
@@ -75,7 +75,7 @@ namespace BankingApp
 
         public void Deposit(uint amount)
         {
-            if (LoggedInUser == null)
+            if (!IsAuthenticated)
             {
                 throw new UnauthorizedAccessException("User must be logged in to record a deposit.");
             }
@@ -84,7 +84,7 @@ namespace BankingApp
 
         public string History()
         {
-            if (LoggedInUser == null)
+            if (!IsAuthenticated)
             {
                 throw new UnauthorizedAccessException("User must be logged in to view transaction history.");
             }
