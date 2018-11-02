@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "BankingApp": {
+      "commandName": "Project",
+      "commandLineArgs": "login"
+    }
+  }
+}
