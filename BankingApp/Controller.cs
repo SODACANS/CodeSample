@@ -57,19 +57,38 @@ namespace BankingApp
 
         public double GetBalance()
         {
+            if (LoggedInUser == null)
+            {
+                throw new UnauthorizedAccessException("User must be logged in to view an account balance.");
+            }
             return LoggedInUser.Account.Balance / 100.0;
         }
 
         public void Withdraw(uint amount)
         {
+            if (LoggedInUser == null)
+            {
+                throw new UnauthorizedAccessException("User must be logged in to record a withdrawl.");
+            }
             LoggedInUser.Account.Withdraw(amount);
         }
 
         public void Deposit(uint amount)
         {
+            if (LoggedInUser == null)
+            {
+                throw new UnauthorizedAccessException("User must be logged in to record a deposit.");
+            }
             LoggedInUser.Account.Deposit(amount);
         }
 
-        
+        public string History()
+        {
+            if (LoggedInUser == null)
+            {
+                throw new UnauthorizedAccessException("User must be logged in to view transaction history.");
+            }
+            return LoggedInUser.Account.GetTransactionRecord();
+        }
     }
 }

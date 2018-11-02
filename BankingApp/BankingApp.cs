@@ -110,9 +110,13 @@ namespace BankingApp
                 {
                     app.Execute(args);
                 }
-                catch (Exception ex)
+                catch (UnauthorizedAccessException ex)
                 {
-                    // CommandLineApplication will take care of printing a message in this case.
+                    Console.WriteLine(ex.Message);
+                }
+                catch(CommandParsingException ex)
+                {
+                    // Prevent a crash if the arguments are able to be parsed.
                 }
             }
         }
@@ -126,6 +130,7 @@ namespace BankingApp
             // Ensure user name is unique.
             while (BankingApp.Controller.IsUserNameTaken(userName))
             {
+                Console.WriteLine("That user name is already taken.");
                 userName = Prompt.GetString("Select a user name:");
             }
             string password = Prompt.GetPassword("Create a password:");
@@ -163,7 +168,7 @@ namespace BankingApp
 
         private static void History()
         {
-            throw new NotImplementedException();
+            Console.WriteLine(BankingApp.Controller.History());
         }
     }
 }

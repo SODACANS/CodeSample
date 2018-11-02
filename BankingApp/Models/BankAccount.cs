@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace BankingApp.Models
 {
@@ -10,7 +11,7 @@ namespace BankingApp.Models
 
         public readonly uint AccountNumber;
         public long Balance { get; private set; } = 0;
-        private readonly ICollection<Transaction> Transactions = new List<Transaction>();
+        private readonly List<Transaction> Transactions = new List<Transaction>();
 
         public BankAccount()
         {
@@ -34,6 +35,13 @@ namespace BankingApp.Models
         public long Withdraw(uint amount)
         {
             return AddTransaction(TransactionType.Withdrawl, amount);
+        }
+
+        public string GetTransactionRecord()
+        {
+            StringBuilder record = new StringBuilder();
+            Transactions.ForEach(t => record.AppendLine(t.Describe()));
+            return record.ToString();
         }
     }
 }
