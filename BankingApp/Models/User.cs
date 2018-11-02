@@ -6,17 +6,18 @@ namespace BankingApp.Models
 {
     public class User
     {
-        private readonly ICollection<BankAccount> Accounts = new List<BankAccount>();
+        public readonly BankAccount Account = new BankAccount();
         private readonly string FirstName;
         private readonly string LastName;
-        private readonly string UserName;
-        private readonly string passwordHash;
+        public readonly string UserName;
+        public readonly string PasswordHash;
+        public readonly string Salt;
 
         public User(string firstName, string lastName, string userName, string password)
         {
             FirstName = firstName;
             LastName = lastName;
-            passwordHash = password;
+            (PasswordHash, Salt) = PasswordHandler.HashPassword(password);
             UserName = userName;
         }
     }
