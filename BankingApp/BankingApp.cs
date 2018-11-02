@@ -98,15 +98,14 @@ namespace BankingApp
 
         static void Main(string[] args)
         {
-            CommandLineApplication app = new CommandLineApplication();
-            ConfigureApp(app);
             // Start the main prompt loop
             while (!BankingApp.Exit)
             {
+                CommandLineApplication app = new CommandLineApplication();
+                ConfigureApp(app);
                 string colon = Controller.GetLoggedInUserName() != null ? ":" : "";
                 string prompt = $"bankingapp{colon}{Controller.GetLoggedInUserName()}>";
                 args = Prompt.GetString(prompt).Split(' ');
-                app.Arguments.Clear();
                 try
                 {
                     app.Execute(args);
@@ -118,7 +117,7 @@ namespace BankingApp
             }
         }
 
-        static void CreateUser()
+        private static void CreateUser()
         {
             // Read-in user details
             string firstName = Prompt.GetString("First name:");
@@ -142,7 +141,7 @@ namespace BankingApp
             Console.WriteLine($"User for {firstName} {lastName} created.");
         }
         
-        static void Login(string userName)
+        private static void Login(string userName)
         {
             // Allow 3 password tries
             const int passTries = 3;
@@ -157,12 +156,12 @@ namespace BankingApp
             Console.WriteLine("Login attempts exceeded.");
         }
 
-        private static int Balance()
+        private static void Balance()
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"Your current account balance is {BankingApp.Controller.GetBalance().ToString("C2")}");
         }
 
-        private static int History()
+        private static void History()
         {
             throw new NotImplementedException();
         }

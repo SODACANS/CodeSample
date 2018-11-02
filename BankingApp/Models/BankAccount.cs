@@ -18,17 +18,22 @@ namespace BankingApp.Models
             NEXT_ACCOUNT_NUMBER++;
         }
 
-        public long RecordTransaction(Transaction transaction)
-        {
-            throw new Exception("Not yet implemented");
-        }
-
-        public long AddTransaction(TransactionType transactionType, uint amount)
+        private long AddTransaction(TransactionType transactionType, uint amount)
         {
             Transaction transaction = new Transaction(transactionType, Balance, amount);
             Transactions.Add(transaction);
             Balance = transaction.EndingBalance;
             return Balance;
+        }
+
+        public long Deposit(uint amount)
+        {
+            return AddTransaction(TransactionType.Deposit, amount);
+        }
+
+        public long Withdraw(uint amount)
+        {
+            return AddTransaction(TransactionType.Withdrawl, amount);
         }
     }
 }

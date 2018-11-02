@@ -50,23 +50,26 @@ namespace BankingApp
             LoggedInUser = null;
         }
 
-        public void RecordTransaction(TransactionType transactionType, uint amount)
-        {
-            LoggedInUser.Account.AddTransaction(transactionType, amount);
-        }
         public string GetLoggedInUserName()
         {
             return LoggedInUser?.UserName;
         }
 
-        internal void Withdraw(uint amount)
+        public double GetBalance()
         {
-            throw new NotImplementedException();
+            return LoggedInUser.Account.Balance / 100.0;
         }
 
-        internal void Deposit(uint amount)
+        public void Withdraw(uint amount)
         {
-            throw new NotImplementedException();
+            LoggedInUser.Account.Withdraw(amount);
         }
+
+        public void Deposit(uint amount)
+        {
+            LoggedInUser.Account.Deposit(amount);
+        }
+
+        
     }
 }
