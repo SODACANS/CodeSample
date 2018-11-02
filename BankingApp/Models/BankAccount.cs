@@ -10,6 +10,7 @@ namespace BankingApp.Models
         private static uint NEXT_ACCOUNT_NUMBER = 1;
 
         public readonly uint AccountNumber;
+        /** All money amounts are in US cents. */
         public long Balance { get; private set; } = 0;
         private readonly List<Transaction> Transactions = new List<Transaction>();
 
